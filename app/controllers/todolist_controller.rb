@@ -1,67 +1,59 @@
 class TodolistController < ApplicationController
-
-  def create
-  @todolist = Todolist.new(todo_params)
-  # binding.pry
-  if @todolist.save
-    redirect_to todolist_index_path
-  else
-    render 'new'
-  end
-  end
-
-  def show
-    @todo = Todolist.find(params[:id])
+  def index
+    todolist
   end
 
   def new
-    @todolist = Todolist.new
+    @todo = todolist.new
   end
 
-  def index
-    @todolist = Todolist.all
-    # binding.pry
+  def create
+    if todolist.create(todo_params)
+      redirect_to todolist_index_path
+    else
+      render 'new'
+    end
   end
 
   def edit
-    @todolist = Todolist.find(params[:id])
+    todo
   end
 
   def update
-    @todolist = Todolist.find(params[:id])
- 
-    if @todolist.update(todo_params)
+    if todo.update(todo_params)
       redirect_to todolist_index_path
     else
       render 'edit'
     end
   end
 
-  def update_status
-    @todo = Todolist.find(params[:todolist_id])
-    @todo.update(status: params[:status])
-    @todolist = Todolist.all
-  rescue => e
-    @todo = Todolist.find(params[:todolist_id])
-  end
-  
   def destroy
-    @todolist = Todolist.find(params[:id])
-    @todolist.destroy
-    # binding.pry
-    # flash[:notice] = "You have successfully delete #{@todolist.todo}."
-    # redirect_to todolist_index_path
-    respond_to do |format|
-      format.html { redirect_to todolist_index_path }
-      format.json { head :no_content }
-      format.js   { render :layout => false }
-   end
-    
+    todo.destroy
   end
 
+  def show
+    todo
+  end
+
+  def update_status
+    todo.update(status: params[:status])
+  rescue => e
+    todo
+  end
+    
   private
 
   def todo_params
     params.require(:todolist).permit(:todo)
+  end
+
+  def todolist
+    @todolist ||= Todolist.all
+  end
+
+  def todo
+    @todo ||= todolist.find_by(id: params[:id]).tap do |todo|
+      redirect_to root_path if todo.blank?
+    end
   end
 end

@@ -1,16 +1,16 @@
 
 <h1>Edit to-do</h1>
  
-<%= form_with(model: @todolist, local: true) do |form| %>
+<%= form_with(model: @todo, local: true) do |form| %>
  
-  <% if @todolist.errors.any? %>
+  <% if @todo.errors.any? %>
     <div id="error_explanation">
       <h2>
-        <%= pluralize(@todolist.errors.count, "error") %> prohibited
+        <%= pluralize(@todo.errors.count, "error") %> prohibited
         this article from being saved:
       </h2>
       <ul>
-        <% @todolist.errors.full_messages.each do |msg| %>
+        <% @todo.errors.full_messages.each do |msg| %>
           <li><%= msg %></li>
         <% end %>
       </ul>
@@ -19,7 +19,7 @@
  
   <p>
     <%= form.label :todo %><br>
-    <%= form.text_field :todo %>
+    <%= form.text_area :todo %>
   </p>
  
   <p>
