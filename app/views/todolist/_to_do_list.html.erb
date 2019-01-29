@@ -1,0 +1,25 @@
+<table>
+  <tr>
+    <th>Description</th>
+    <th>Status</th>
+    <th></th>
+  </tr>
+  <% @todolist.each do |todolist| %>
+    <tr>
+      <td>
+        <%= todolist.todo %>
+      </td>
+      <td>
+        <h>
+          <%= check_box_tag(todolist.id,"",todolist.status) %>
+        </h>
+      </td>
+      <td>
+        <%= link_to 'show', todolist_path(todolist) %>
+          <%= link_to 'delete', todolist_path(todolist), method: :delete, data: { confirm: 'Are you sure?' },
+                                                        :remote => true, :class => 'delete_todo'%>
+            <%= link_to 'Edit', edit_todolist_path(todolist) %>
+      </td>
+    </tr>
+  <% end %>
+</table>

@@ -1,0 +1,45 @@
+<head>
+<h1>Listing ToDoList</h1>
+</br>
+
+</head>
+<body>
+
+ <% if notice %>
+  <%= notice %>
+<% end %>
+</br>
+<%= link_to 'Create new To-do', new_todolist_path %>
+<div id="to_do_list">
+  <%= render "to_do_list" %>
+</div>
+<!-- <script>
+$("#status").on("click", function(){
+         var id = parseInt($(this).val(), 10);
+         if($(this).is(":checked")) {
+             binding.pry
+         } else {
+             unckecked
+         }
+});
+</script> -->
+<script>
+ $(function () {
+  var token = $('meta[name="csrf-token"]').attr('content');
+   $.ajaxSetup({
+     beforeSend: function (xhr) {
+       xhr.setRequestHeader('X-CSRF-Token', token);
+     }
+   });
+
+  $("input[type=checkbox]").on("change", function () {
+    $.ajax({
+      method: "PUT",
+      dataType: 'script',
+      url: '/todolist/' + $(this).attr('id') + '/update_status',
+      data: { status: $(this).prop('checked') }
+    });
+  });
+});
+</script>
+</body>

@@ -1,0 +1,27 @@
+
+
+<%= form_with scope: :todolist, url: todolist_index_path , local: true do |form| %>
+ 
+<% if @todolist.errors.any? %>
+  <div id="error_explanation">
+    <h2>
+      <%= pluralize(@todolist.errors.count, "error") %> too short
+    </h2>
+    <ul>
+      <% @todolist.errors.full_messages.each do |msg| %>
+        <li>
+          <%= msg %>
+        </li>
+        <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <p>
+    <%= form.label :Descriptoin %><br>
+    <%= form.text_area :todo %>
+  </p>
+ 
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
